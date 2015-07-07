@@ -83,7 +83,7 @@ public class JdbcStorageConfigManager {
     public static String getQueryToExecute(Configuration config) {
         String query = config.get(JdbcStorageConfig.QUERY.getPropertyName());
         String hiveFilterCondition = QueryConditionBuilder.getInstance().buildCondition(config);
-        if ((hiveFilterCondition != null) && (!hiveFilterCondition.trim().isEmpty())) {
+        if (!isEmptyString(hiveFilterCondition) && !queryContainsWhereClause(query)) {
             query = query + " WHERE " + hiveFilterCondition;
         }
 
@@ -93,6 +93,14 @@ public class JdbcStorageConfigManager {
 
     private static boolean isEmptyString(String value) {
         return ((value == null) || (value.trim().isEmpty()));
+    }
+    
+    //TODO: this may turn out to be too simple. To cover all cases, we would need to check if the outer-most 
+    //      query block contains a where clause
+    // alternative: introduce a config entry to manually skip adding the HQL WHERE clause and provide 
+    // own via the existing qubit.sql.query config entry
+    private static boolean queryContainsWhereClause(String query) {
+    	return query.toLowerCase().indexOf(" where ") != 0;
     }
 
 }

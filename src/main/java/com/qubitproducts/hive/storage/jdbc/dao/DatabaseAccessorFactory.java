@@ -36,6 +36,10 @@ public class DatabaseAccessorFactory {
             case MYSQL:
                 accessor = new MySqlDatabaseAccessor();
                 break;
+                
+            case DB2Z:
+                accessor = new DB2ZDatabaseAccessor();
+                break;
 
             default:
                 accessor = new GenericJdbcDatabaseAccessor();

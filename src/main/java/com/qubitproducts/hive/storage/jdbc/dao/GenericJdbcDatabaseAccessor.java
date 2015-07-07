@@ -61,6 +61,8 @@ public class GenericJdbcDatabaseAccessor implements DatabaseAccessor {
             initializeDatabaseConnection(conf);
             String sql = JdbcStorageConfigManager.getQueryToExecute(conf);
             String metadataQuery = addLimitToQuery(sql, 1);
+            metadataQuery = modifyQueryBeforeExecution(metadataQuery);
+            
             LOGGER.debug("Query to execute is [{}]", metadataQuery);
 
             conn = dbcpDataSource.getConnection();
@@ -96,7 +98,9 @@ public class GenericJdbcDatabaseAccessor implements DatabaseAccessor {
         try {
             initializeDatabaseConnection(conf);
             String sql = JdbcStorageConfigManager.getQueryToExecute(conf);
-            String countQuery = "SELECT COUNT(*) FROM (" + sql + ") tmptable";
+            String countQuery = "SELECT COUNT(*) FROM (" + sql + ") as tmptable";
+            countQuery = modifyQueryBeforeExecution(countQuery);
+            
             LOGGER.debug("Query to execute is [{}]", countQuery);
 
             conn = dbcpDataSource.getConnection();
@@ -135,6 +139,8 @@ public class GenericJdbcDatabaseAccessor implements DatabaseAccessor {
             initializeDatabaseConnection(conf);
             String sql = JdbcStorageConfigManager.getQueryToExecute(conf);
             String limitQuery = addLimitAndOffsetToQuery(sql, limit, offset);
+            limitQuery = modifyQueryBeforeExecution(limitQuery);
+            
             LOGGER.debug("Query to execute is [{}]", limitQuery);
 
             conn = dbcpDataSource.getConnection();
@@ -238,6 +244,11 @@ public class GenericJdbcDatabaseAccessor implements DatabaseAccessor {
         props.put("maxWait", "10000");
         props.put("timeBetweenEvictionRunsMillis", "30000");
         return props;
+    }
+    
+    
+    protected String modifyQueryBeforeExecution(String query) {
+    	return query;
     }
 
 
