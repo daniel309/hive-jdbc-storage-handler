@@ -7,13 +7,13 @@ read the results of a query run on an RDBMS such as MySQL.
 Download
 --------
 
-*   Download the DB2 JDBC driver from `http://www-01.ibm.com/support/docview.wss?uid=swg21363866` and extract the files `db2jcc4.jar` and `db2jcc_license_cisuz.jar` 
-*   Download the latest `hive-jdbc-storage-handler-*.jar` from `https://github.com/daniel309/hive-jdbc-storage-handler/releases`
+*   Download the [DB2 JDBC driver](http://www-01.ibm.com/support/docview.wss?uid=swg21363866) and extract the files `db2jcc4.jar` and `db2jcc_license_cisuz.jar` 
+*   Download the latest `hive-jdbc-storage-handler-*.jar` from the [project releases](https://github.com/daniel309/hive-jdbc-storage-handler/releases)
 
 Usage
 -----
 
-*   Start hive CLP (type 'hive' in a command line window) and add the JAR files to the classpath using the following commands:
+*   Start Hive CLP (type 'hive' in a command line window) and add the JAR files to the classpath using the following commands:
 
         ADD JAR /path/to/hive-jdbc-storage-handler-1.1.1-cdh4.3.0-SNAPSHOT-dist.jar;
         ADD JAR /path/to/db2jcc4.jar;
