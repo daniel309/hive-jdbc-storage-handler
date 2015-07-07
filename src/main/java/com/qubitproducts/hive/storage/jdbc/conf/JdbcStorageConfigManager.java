@@ -100,7 +100,7 @@ public class JdbcStorageConfigManager {
     // alternative: introduce a config entry to manually skip adding the HQL WHERE clause and provide 
     // own via the existing qubit.sql.query config entry
     private static boolean queryContainsWhereClause(String query) {
-    	return query.toLowerCase().indexOf(" where ") != 0;
+    	return query.toLowerCase().indexOf(" where ") != -1;
     }
 
 }
