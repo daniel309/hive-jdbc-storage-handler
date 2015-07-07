@@ -4,19 +4,22 @@ Hive JDBC Storage Handler
 Provides support for creating read-only Hive external tables that can
 read the results of a query run on an RDBMS such as MySQL. 
 
+Download
+--------
+
+*   Download the DB2 JDBC driver from `http://www-01.ibm.com/support/docview.wss?uid=swg21363866` and extract the files `db2jcc4.jar` and `db2jcc_license_cisuz.jar` 
+*   Download the latest `hive-jdbc-storage-handler-*.jar` from `https://github.com/daniel309/hive-jdbc-storage-handler/releases`
+
 Usage
 -----
 
-*   Clone the git project and run `mvn clean package` to produce the storage
-    handler JAR.
-
-*   Start hive CLP (type 'hive') and add the JAR files to the classpath:
+*   Start hive CLP (type 'hive' in a command line window) and add the JAR files to the classpath using the following commands:
 
         ADD JAR /path/to/hive-jdbc-storage-handler-1.1.1-cdh4.3.0-SNAPSHOT-dist.jar;
         ADD JAR /path/to/db2jcc4.jar;
-        ADD JAR /path/to/db2jcc_license_cisuz.jar
+        ADD JAR /path/to/db2jcc_license_cisuz.jar;
 
-*   Create an external table in Hive:
+*   You can then create an external JDBC table in Hive:
 
         CREATE EXTERNAL TABLE db2z_test
         (
@@ -28,7 +31,7 @@ Usage
         STORED BY 'com.qubitproducts.hive.storage.jdbc.JdbcStorageHandler' 
         TBLPROPERTIES (
             "qubit.sql.database.type" = "DB2Z",
-            "qubit.sql.jdbc.url" = "jdbc:db2://db2z.server.or.ip.de:11512/DWADB12:user=username\;password=***\;specialRegisters=CURRENT QUERY ACCELERATION=ALL\;",
+            "qubit.sql.jdbc.url" = "jdbc:db2://db2z.server.or.ip:11512/DWADB12:user=username\;password=***\;specialRegisters=CURRENT QUERY ACCELERATION=ALL\;",
             "qubit.sql.jdbc.driver" = "com.ibm.db2.jcc.DB2Driver",
             "qubit.sql.query" = "SELECT part_id, part_name, warehouse_id, created_datetime FROM parts",
             "qubit.sql.column.mapping" = "id=part_id, created=created_datetime:date"
@@ -78,3 +81,11 @@ Resultset fetch size (default is 1000 rows) can be changed at query time:
 
     SET qubit.sql.jdbc.fetch.size=500;
 
+
+Building
+--------
+
+*   Clone the git project and run `mvn clean package` to produce the storage
+    handler JAR.
+    
+    
