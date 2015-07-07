@@ -10,13 +10,15 @@ Usage
 *   Clone the git project and run `mvn clean package` to produce the storage
     handler JAR.
 
-*   Start hive and add the JAR file to the classpath:
+*   Start hive CLP (type 'hive') and add the JAR files to the classpath:
 
         ADD JAR /path/to/hive-jdbc-storage-handler-1.1.1-cdh4.3.0-SNAPSHOT-dist.jar;
+        ADD JAR /path/to/db2jcc4.jar;
+        ADD JAR /path/to/db2jcc_license_cisuz.jar
 
 *   Create an external table in Hive:
 
-        CREATE EXTERNAL TABLE mysql_test
+        CREATE EXTERNAL TABLE db2z_test
         (
             id STRING,
             part_name STRING,
@@ -25,9 +27,9 @@ Usage
         )
         STORED BY 'com.qubitproducts.hive.storage.jdbc.JdbcStorageHandler' 
         TBLPROPERTIES (
-            "qubit.sql.database.type" = "MYSQL",
-            "qubit.sql.jdbc.url" = "jdbc:mysql://localhost:3306/qubit?user=qubit&password=qubit",
-            "qubit.sql.jdbc.driver" = "com.mysql.jdbc.Driver",
+            "qubit.sql.database.type" = "DB2Z",
+            "qubit.sql.jdbc.url" = "jdbc:db2://db2z.server.or.ip.de:11512/DWADB12:user=username\;password=***\;specialRegisters=CURRENT QUERY ACCELERATION=ALL\;",
+            "qubit.sql.jdbc.driver" = "com.ibm.db2.jcc.DB2Driver",
             "qubit.sql.query" = "SELECT part_id, part_name, warehouse_id, created_datetime FROM parts",
             "qubit.sql.column.mapping" = "id=part_id, created=created_datetime:date"
         );
@@ -39,8 +41,7 @@ Configuration
 
 ##### Required Table Properties
 
-*   `qubit.sql.database.type` - Currently only supports `MYSQL`, `H2` and
-    `DERBY`.
+*   `qubit.sql.database.type` - Currently supports `MYSQL`, `H2`, `DERBY` and `DB2Z`.
 *   `qubit.sql.jdbc.url` - Full JDBC connection URL.
 *   `qubit.sql.jdbc.driver` - JDBC driver class name.
 *   `qubit.sql.query` - Query to run against the database. The Storage
@@ -73,7 +74,7 @@ conditions to apply to the database query based on the hive query being
 executed. Therefore no additional steps need to be performed while
 querying.
 
-Resultset fetch size can be changed at query time:
+Resultset fetch size (default is 1000 rows) can be changed at query time:
 
     SET qubit.sql.jdbc.fetch.size=500;
 
