@@ -12,6 +12,7 @@ Download
 
 Usage
 -----
+*   Tested with Horton Data Platform (HDP) 2.1, Hive 0.13.0
 
 *   Start Hive CLP (type 'hive' in a command line window) and add the JAR files to the classpath using the following commands:
 
