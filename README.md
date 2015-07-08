@@ -1,14 +1,14 @@
-Hive JDBC Storage Handler
-=========================
+Hive JDBC Storage Handler for DB2 for z/OS and Analytics Accelerator
+====================================================================
 
 Provides support for creating read-only Hive external tables that can
-read the results of a query run on an RDBMS such as MySQL. 
+read the results of a query run on the Analytics Accelerator attached to DB2 for z/OS. 
 
 Download
 --------
 
 *   Download the [DB2 JDBC driver](http://www-01.ibm.com/support/docview.wss?uid=swg21363866) and extract the files `db2jcc4.jar` and `db2jcc_license_cisuz.jar` 
-*   Download the latest `hive-jdbc-storage-handler-*.jar` from the [project releases](https://github.com/daniel309/hive-jdbc-storage-handler/releases)
+*   Download the latest `hive-jdbc-storage-handler-*.jar` from this [project's releases](https://github.com/daniel309/hive-jdbc-storage-handler/releases)
 
 Usage
 -----
@@ -19,7 +19,7 @@ Usage
         ADD JAR /path/to/db2jcc4.jar;
         ADD JAR /path/to/db2jcc_license_cisuz.jar;
 
-*   You can then create an external JDBC table in Hive:
+*   Still in CLP, you can now create an external JDBC table in Hive:
 
         CREATE EXTERNAL TABLE db2z_test
         (
@@ -77,7 +77,10 @@ conditions to apply to the database query based on the hive query being
 executed. Therefore no additional steps need to be performed while
 querying.
 
-Resultset fetch size (default is 1000 rows) can be changed at query time:
+Adding a WHERE-clause to `qubit.sql.query` will disable predicate push-down
+from the Hive query. The query will be run as-is. 
+
+Resultset fetch size (the default is 1000 rows) can be changed at query time:
 
     SET qubit.sql.jdbc.fetch.size=500;
 
